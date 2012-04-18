@@ -1,6 +1,19 @@
 = Problem statement =
+
 Suppose you wish to conduct a survey of users on a private network that has no access to the network on which you intend to perform analysis of the survey results.
 
 How would you collect data while trying to preserve the properties necessary for a successful survey? For instance,
 * confidentiality - users can be confident their answers will be anonymized
 * integrity - you can be confident the answers will not be modified by an unauthorized user
+
+= Possible solution =
+
+I propose the following system, implemented as surver.
+
+In order to minimize duplicate entries, either inadvertant or malicious, we send a session cookie to the client. We also collect client's MAC address, IP address, and other metadata in order to fingerprint the client.
+
+Survey data is collected via HTML forms, which is POSTed to the server.
+
+Metadata and survey data is printed to standard out, which should be piped into a text file (or a line printer). Pushing the data into a text file that is accesible only by local users of the surver is intended to provide integrity.
+
+This text file is later printed, scanned, and OCRed into the analysis network. Duplicate entries can be minimized on the "safe" analysis network as a pre-processing step.
