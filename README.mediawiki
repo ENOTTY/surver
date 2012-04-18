@@ -1,2 +1,10 @@
 = Problem statement =
+Suppose you wish to conduct a survey of users on a private network that
+has no access to the network on which you intend to perform analysis of
+the survey results.
 
+How would you collect data while trying to preserve the properties
+necessary for a successful survey? For instance,
+* confidentiality - users can be confident their answers will be anonymized
+* integrity - you can be confident the answers will not be modified by an
+unauthorized user
