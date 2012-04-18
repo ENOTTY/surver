@@ -8,12 +8,23 @@ How would you collect data while trying to preserve the properties necessary for
 
 = Possible solution =
 
-I propose the following system, implemented as surver.
+Surver implements the following system:
 
-In order to minimize duplicate entries, either inadvertant or malicious, we send a session cookie to the client. We also collect client's MAC address, IP address, and other metadata in order to fingerprint the client.
+In order to minimize duplicate entries, surver send a session cookie to the client. Surver also collects client's MAC address, IP address, and other metadata in order to fingerprint the client.
 
 Survey data is collected via HTML forms, which is POSTed to the server.
 
-Metadata and survey data is printed to standard out, which should be piped into a text file (or a line printer). Pushing the data into a text file that is accesible only by local users of the surver is intended to provide integrity.
+Metadata and survey data is printed to standard out, which should be piped into a text file (or a line printer). Pushing the data into a text file that is accesible only by local users of the surver is intended to provide integrity against remote users.
 
 This text file is later printed, scanned, and OCRed into the analysis network. Duplicate entries can be minimized on the "safe" analysis network as a pre-processing step.
+
+= Extensions =
+
+== Obfuscate the survey data ==
+
+Survey data could be obfuscated/encrypted to protect confidentiality in transit and in rest, as well as protect against changes to the text file made by local users.
+
+surver could take a public key as input to use for encryption then print the base64 of the encrypted data. However, it's likely that a bad printer or a mis-read by the OCR software will corrupt the survey data.
+
+= Special thanks =
+* Anonymous author of http://pastebin.com/88U9h1QT, which provided a lot of insight into using the BaseHTTPServer and SimpleCookie classes.
