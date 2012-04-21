@@ -1,2 +1,2 @@
 all:
-	gcc -g sc.c main.c -o s -lssl -lcrypto
+	gcc -Wall -Wextra -g sc.c main.c -o s -lssl -lcrypto
