@@ -11,6 +11,7 @@ import os.path
 COOKIE_LENGTH = 52
 SESSION_ID = 'sess-id'
 HOMEPAGE = 'survey.html'
+DELIMITER = '?'
 
 class Client:
 
@@ -66,8 +67,13 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     else:
       self.send_response(404)
 
-  def parsePostdata(self, data):
-    print data
+  """Print data to stdout"""
+  def parsePostdata(self, data, prefix=[], postfix=[]):
+    data = filter(lambda x: x != DELIMITER, data)
+    data = data.split('&')
+    data = prefix + data + postfix + ['EOLEOL']
+    data = string.join(data, DELIMITER)
+    print "%s" % (data)
 
   def do_POST(self):
     print ''
@@ -81,6 +87,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     data = self.rfile.read(length)
     self.parsePostdata(data)
 
+    # return a response to the client
     text = 'Got it! Thanks!'
     self.send_response(200)
     self.send_header('Content-length', len(text))
