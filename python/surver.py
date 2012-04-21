@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# TODO only support text files
+
 import BaseHTTPServer
 from Cookie import SimpleCookie
 import random
@@ -28,7 +30,12 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     print ''
     print self.headers
 
+    text = open(path).read()
+
     self.send_response(200)
+
+    # handle file
+    self.send_header('Content-length', len(text))
 
     # handle cookies
     cookie = None
@@ -40,7 +47,9 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       self.send_header('Set-Cookie', '%s=%s' % (SESSION_ID, cookie))
 
     self.end_headers()
-    self.wfile.write(open(path).read())
+
+    # send the file
+    self.wfile.write(text)
 
   def do_GET(self):
     # handle a request without a path
@@ -56,6 +65,27 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     # file does not exist
     else:
       self.send_response(404)
+
+  def parsePostdata(self, data):
+    print data
+
+  def do_POST(self):
+    print ''
+    print self.headers
+
+    if not 'content-length' in self.headers.keys():
+      print >> sys.stderr, 'No content-length in POST request'
+      return
+    length = int(self.headers['content-length'])
+
+    data = self.rfile.read(length)
+    self.parsePostdata(data)
+
+    text = 'Got it! Thanks!'
+    self.send_response(200)
+    self.send_header('Content-length', len(text))
+    self.end_headers()
+    self.wfile.write(text)
 
 if __name__ == '__main__':
   print 'starting.......'
