@@ -25,11 +25,6 @@ class Client:
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
   def send(self, path):
-    if not os.path.exists(path):
-      self.send_response(404)
-      return
-
-
     print ''
     print self.headers
 
@@ -48,13 +43,17 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     self.wfile.write(open(path).read())
 
   def do_GET(self):
+    # handle a request without a path
     if self.path == '/':
       self.send(os.path.abspath(HOMEPAGE))
       return
 
+    # make sure requested path is under working directory
     desiredPath = os.path.abspath(".%s" % (self.path))
-    if os.getcwd() in desiredPath:
+    if os.getcwd() in desiredPath and os.path.exists(desiredPath):
       self.send(desiredPath)
+
+    # file does not exist
     else:
       self.send_response(404)
 
