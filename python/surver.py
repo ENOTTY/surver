@@ -4,9 +4,11 @@ import BaseHTTPServer
 from Cookie import SimpleCookie
 import random
 import string
+import os.path
 
 COOKIE_LENGTH = 52
 SESSION_ID = 'sess-id'
+HOMEPAGE = 'survey.html'
 
 class Client:
 
@@ -22,7 +24,12 @@ class Client:
     self.attrMap = more
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
-  def send_survey(self):
+  def send(self, path):
+    if not os.path.exists(path):
+      self.send_response(404)
+      return
+
+
     print ''
     print self.headers
 
@@ -38,18 +45,18 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
       self.send_header('Set-Cookie', '%s=%s' % (SESSION_ID, cookie))
 
     self.end_headers()
-    self.wfile.write("asdf")
+    self.wfile.write(open(path).read())
 
   def do_GET(self):
-    if self.path in self.urls.keys():
-      self.urls[self.path](self)
+    if self.path == '/':
+      self.send(os.path.abspath(HOMEPAGE))
+      return
+
+    desiredPath = os.path.abspath(".%s" % (self.path))
+    if os.getcwd() in desiredPath:
+      self.send(desiredPath)
     else:
       self.send_response(404)
-
-
-  urls = {
-    '/': send_survey,
-  }
 
 if __name__ == '__main__':
   print 'starting.......'
