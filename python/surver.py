@@ -7,11 +7,15 @@ from Cookie import SimpleCookie
 import random
 import string
 import os.path
+import ssl
+import sys
 
 COOKIE_LENGTH = 52
 SESSION_ID = 'sess-id'
 HOMEPAGE = 'survey.html'
 DELIMITER = '?'
+USESSL = False
+CERT = ''
 
 class Client:
 
@@ -28,8 +32,8 @@ class Client:
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
   def send(self, path):
-    print ''
-    print self.headers
+    print >> sys.stderr, ''
+    print >> sys.stderr, self.headers
 
     text = open(path).read()
 
@@ -74,18 +78,25 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     data = prefix + data + postfix + ['EOLEOL']
     data = string.join(data, DELIMITER)
     print "%s" % (data)
+    sys.stdout.flush()
 
   def do_POST(self):
-    print ''
-    print self.headers
+    print >> sys.stderr, ''
+    print >> sys.stderr, self.headers
 
     if not 'content-length' in self.headers.keys():
       print >> sys.stderr, 'No content-length in POST request'
       return
     length = int(self.headers['content-length'])
 
+    if not 'user-agent' in self.headers.keys():
+      useragent = ''
+    else:
+      useragent = self.headers['user-agent']
+
+    prefix = [str(self.client_address[0]), str(self.client_address[1]), useragent]
     data = self.rfile.read(length)
-    self.parsePostdata(data)
+    self.parsePostdata(data, prefix)
 
     # return a response to the client
     text = 'Got it! Thanks!'
@@ -95,7 +106,9 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     self.wfile.write(text)
 
 if __name__ == '__main__':
-  print 'starting.......'
+  print >> sys.stderr, 'starting.......'
   server_class = BaseHTTPServer.HTTPServer
   httpd = server_class(('127.0.0.1', 8888), MyHandler)
+  if USESSL:
+    httpd.socket = ssl.wrap_socket(httpd.socket, certfile=CERT, server_side=True)
   httpd.serve_forever()
