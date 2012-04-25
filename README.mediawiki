@@ -28,3 +28,19 @@ surver could take a public key as input to use for encryption then print the bas
 
 = Special thanks =
 * Anonymous author of http://pastebin.com/88U9h1QT, which provided a lot of insight into using the BaseHTTPServer and SimpleCookie classes.
+
+= TODOs =
+* HTTPS
+* Server side munge of data
+* C
+* investigate obfuscative properties of gcc O0, O1, O2, O3, Os
+* OS compatibility
+* backend parser into CSV
+* block virtual macs
+* map transactions to computers for deduplication of submissions
+** unique cookie based on mac/ip/something
+* research other wyas browsers handle cookies
+* distribute LLVM interpreter + program in llvm bitcode -> more obfuscation
+* PKI to avoid instructor server spying
+* specify instructors on start
+* more complex mungers
