@@ -16,6 +16,7 @@ HOMEPAGE = 'survey.html'
 DELIMITER = '?'
 USESSL = False
 CERT = ''
+KEYFILE = ''
 
 class Client:
 
@@ -94,6 +95,12 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     else:
       useragent = self.headers['user-agent']
 
+     if not 'cookie' in self.headers.keys():
+       cookie = ''
+       # TODO bail out if no cookie?
+     else:
+       cookie = self.headers['cookie']
+
     prefix = [str(self.client_address[0]), str(self.client_address[1]), useragent]
     data = self.rfile.read(length)
     self.parsePostdata(data, prefix)
@@ -110,5 +117,5 @@ if __name__ == '__main__':
   server_class = BaseHTTPServer.HTTPServer
   httpd = server_class(('127.0.0.1', 8888), MyHandler)
   if USESSL:
-    httpd.socket = ssl.wrap_socket(httpd.socket, certfile=CERT, server_side=True)
+    httpd.socket = ssl.wrap_socket(httpd.socket, keyfile=KEYFILE, certfile=CERT, server_side=True)
   httpd.serve_forever()
