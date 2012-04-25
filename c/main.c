@@ -258,7 +258,7 @@ int process_post(char * data, size_t data_len)
 	} while (ptr != data + data_len && data_off < data_len);
 	
 	// Dump out the form
-	dump_form(stderr, form);
+	dump_form(stdout, form);
 	
 	return 0;
 }
