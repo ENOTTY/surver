@@ -1,12 +1,28 @@
 /**
  * @author Vinnie Agriesti (crazychenz@gmail.com)
  */
- 
-#include <sys/types.h>
+
+/*
+ * To create a new self-signed server cert...
+ * $ openssl genrsa -des3 -out server.key 1024
+ * $ openssl req -new -key server.key -out server.csr
+ * $ cp server.key server.key.locked
+ * $ openssl rsa -in server.key.org -out server.key
+ * $ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+*/
+
+
+#ifdef WIN32
+#include <winsock2.h>
+#include <windows.h>
+#else
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#endif
+
+#include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -27,7 +43,8 @@ static size_t form_len = 0;
 static char * js = NULL;
 static size_t js_len = 0;
 
-int duplicate_value(char ** dest, size_t * dest_len, char * data, size_t data_len)
+int duplicate_value(char ** dest, size_t * dest_len, 
+                    char * data, size_t data_len)
 {
 	char * val = NULL;
 	size_t val_len = 0;
@@ -67,7 +84,8 @@ int duplicate_int_value(int * val, char * data, size_t data_len)
 	return 0;
 }
 
-struct instructor_t * get_or_create_instructor(struct form_sub_t * form, int id)
+struct instructor_t * 
+get_or_create_instructor(struct form_sub_t * form, int id)
 {
 	struct instructor_t * entry = NULL;
 	
@@ -96,8 +114,6 @@ struct instructor_t * get_or_create_instructor(struct form_sub_t * form, int id)
 
 int process_attrval(char * data, size_t data_len, struct form_sub_t * form)
 {
-	char * val = NULL;
-	size_t val_len = 0;
 	int id = 0;
 	struct instructor_t * instructor = NULL;
 
@@ -258,18 +274,19 @@ int process_post(char * data, size_t data_len)
 	} while (ptr != data + data_len && data_off < data_len);
 	
 	// Dump out the form
-	dump_form(stdout, form);
+	dump_form(stderr, form);
 	
 	return 0;
 }
 
 int net_buf_cookie_id(struct net_buf_t * buf, char * data, size_t data_len)
 {
-	SHA_CTX sha_ctx = {0};
-    unsigned char digest[21] = {0};
+	SHA_CTX sha_ctx;
+	unsigned char digest[21] = {0};
 	int rint = 0, i = 0;
 	
 	// create cookie ID
+	memset(&sha_ctx, 0, sizeof(SHA_CTX));
 	rint = rand();
 	SHA1_Init(&sha_ctx);
 	SHA1_Update(&sha_ctx, data, data_len);
@@ -284,6 +301,8 @@ int net_buf_cookie_id(struct net_buf_t * buf, char * data, size_t data_len)
 	net_buf_add_fmt(buf, "Set-Cookie: id=%s; "
 				"Expires=Tue, 15 Jan 2032 21:47:38 GMT; Path=/; "
 				"Domain=127.0.0.1; HttpOnly; Secure\r\n", digest);
+
+	return 0;
 }
 
 int file_write_base64(FILE * fp, char * data, size_t data_len)
@@ -295,7 +314,7 @@ int file_write_base64(FILE * fp, char * data, size_t data_len)
 	bio = BIO_push(b64, bio);
 	
 	BIO_write(bio, data, data_len);
-	BIO_flush(bio);
+	//BIO_flush(bio);
 	
 	BIO_free_all(bio);
 
@@ -304,8 +323,11 @@ int file_write_base64(FILE * fp, char * data, size_t data_len)
 
 int show_form(struct net_serv_t * serv, int add_cookie)
 {
-	struct net_buf_t hdr = {0};
-    struct net_buf_t body = {0};
+	struct net_buf_t hdr;
+	struct net_buf_t body;
+
+	memset(&hdr, 0, sizeof(struct net_buf_t));
+	memset(&body, 0, sizeof(struct net_buf_t));
 	
 	// Build the HTTP Body before headers so we know content length
 	net_buf_sizer(&body);
@@ -330,12 +352,17 @@ int show_form(struct net_serv_t * serv, int add_cookie)
 	// Now dump HTTP headers then the body to SSL stream
 	SSL_write(serv->ssl, hdr.ptr, hdr.len);
 	SSL_write(serv->ssl, body.ptr, body.len);
+
+	return 0;
 }
 
 int show_js(struct net_serv_t * serv)
 {
-	struct net_buf_t hdr = {0};
-    struct net_buf_t body = {0};
+	struct net_buf_t hdr;
+	struct net_buf_t body;
+
+	memset(&hdr, 0, sizeof(struct net_buf_t));
+	memset(&body, 0, sizeof(struct net_buf_t));
 	
 	// Build the HTTP Body before headers so we know content length
 	net_buf_sizer(&body);
@@ -354,6 +381,8 @@ int show_js(struct net_serv_t * serv)
 	// Now dump HTTP headers then the body to SSL stream
 	SSL_write(serv->ssl, hdr.ptr, hdr.len);
 	SSL_write(serv->ssl, body.ptr, body.len);
+
+	return 0;
 }
 
 int process_request(struct net_serv_t * serv)
@@ -401,16 +430,21 @@ int process_request(struct net_serv_t * serv)
 	return 0;
 }
 
-int main(void)
+int main()
 {
-    struct net_serv_t serv = {0};
+	struct net_serv_t serv;
+
+	memset(&serv, 0, sizeof(struct net_serv_t));
     
+	// Startup winsock if needed
+	net_init();
+	
 	// Seed our pseudo RNG
 	srand ( time(NULL) );
 
 	// Initialize our static objects
-    file_load("survey.html", &form, &form_len);
-    file_load("survey.js", &js, &js_len);
+	file_load(SURVEY_HTML, &form, &form_len);
+	file_load(SURVEY_JS, &js, &js_len);
 	
 	// If server goes belly up, we'll just attempt to re-init it.    
     for (;;) { 
@@ -437,7 +471,7 @@ int main(void)
                 fprintf(stderr, "net_ssl_timeout_read failed()\n");
                 continue;
             }
-            fprintf(stderr, "Got request %d\n", serv.buf_off);
+            //fprintf(stderr, "Got request %d\n", (int)serv.buf_off);
 			
 			process_request(&serv);
 
@@ -449,6 +483,6 @@ int main(void)
             //client = -1;
         }
     }
-done:
+
     return EXIT_SUCCESS;  
 }

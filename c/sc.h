@@ -2,16 +2,26 @@
  * @author Vinnie Agriesti (crazychenz@gmail.com)
  */
  
-#include <stdlib.h>
-#include <sys/types.h>
+#ifdef WIN32
+#include <winsock2.h>
+#include <windows.h>
+#else
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#endif
 
+#include <stdlib.h>
+#include <sys/types.h>
 
 #ifndef NET_LIB_H
 #define NET_LIB_H
+
+#define SURVEY_HTML "../html/survey.html"
+#define SURVEY_JS "../html/survey.js"
+#define SURVEY_KEY "survey.key"
+#define SURVEY_CRT "survey.crt"
 
 struct net_buf_t {
     char * ptr;
@@ -28,7 +38,7 @@ struct net_serv_t {
     
     int client;
     struct sockaddr_in client_addr;
-    int client_addr_len;
+    socklen_t client_addr_len;
     
     int max_sock;      // for select
     
@@ -37,6 +47,8 @@ struct net_serv_t {
 	
 	FILE * log_fp;
 };
+
+int net_init();
 
 int net_buf_simple_http_header(struct net_buf_t * buf, size_t len, char * type);
 

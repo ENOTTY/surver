@@ -2,11 +2,17 @@
  * @author Vinnie Agriesti (crazychenz@gmail.com)
  */
  
-#include <sys/types.h>
+#ifdef WIN32
+#include <winsock2.h>
+#include <windows.h>
+#else
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#endif
+ 
+#include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,24 +25,47 @@
 
 #include "sc.h"
 
+int net_init()
+{
+#ifdef WIN32
+    WORD wVersionRequested;
+    WSADATA wsaData;
+    int err;
+
+	/* Use the MAKEWORD(lowbyte, highbyte) macro declared in Windef.h */
+    wVersionRequested = MAKEWORD(2, 2);
+
+    err = WSAStartup(wVersionRequested, &wsaData);
+    if (err != 0) {
+        /* Tell the user that we could not find a usable */
+        /* Winsock DLL.                                  */
+        printf("WSAStartup failed with error: %d\n", err);
+        return 1;
+    }
+#endif
+	return 0;
+}
+
 int net_buf_simple_http_header(struct net_buf_t * buf, size_t len, char * type)
 {
 	net_buf_add_cstr(buf, "HTTP/1.0 200 OK\r\n");
 	net_buf_add_fmt(buf, "Content-Length: %d\r\n", len);
 	net_buf_add_fmt(buf, "Content-Type: %s\r\n", type);
+	return 0;
 }
 
 int file_load(char * fname, char ** data, size_t * data_len)
 {
     int ret = 0;
     FILE * fp = NULL;
-    size_t bytes_read = 0, off = 0;
+    int bytes_read = 0, off = 0;
     char c = 0;
     
     fp = fopen(fname, "rb");
     if (!fp) {
         fprintf(stderr, "Failed to open filename\n");
         ret = -1;
+				goto done;
     }
     while (!feof(fp)) {
         bytes_read = fread(&c, 1, 1, fp);
@@ -45,23 +74,27 @@ int file_load(char * fname, char ** data, size_t * data_len)
         }
         else {
             fprintf(stderr, "Failed to count js file.\n");
-            exit(1);
+            ret = -1;
+						goto done;
         }
     }
     *data = calloc(1, *data_len + 1);
     if (!*data) {
         fprintf(stderr, "Failed to alloc mem for js.\n");
-        exit(1);
+        ret = -1;
+				goto done;
     }
     rewind(fp);
     while (!feof(fp)) {
         bytes_read = fread(*data + off, 1, 1, fp);
         if (bytes_read < 0) {
             fprintf(stderr, "Failed to read js file.\n");
-            exit(1);
+            ret = -1;
+						goto done;
         }
         off += 1;
     }
+
 done:
     return ret;
 }
@@ -71,6 +104,7 @@ int net_buf_sizer(struct net_buf_t * buf)
     buf->ptr = NULL;
     buf->len = (size_t)-1;
     buf->off = 0;
+		return 0;
 }
 
 int net_buf_alloc(struct net_buf_t * buf)
@@ -94,6 +128,7 @@ int net_buf_add_bin(struct net_buf_t * buf, char * str, size_t str_len)
     }
     
     buf->off += len;
+		return 0;
 }
 
 int net_buf_add_cstr(struct net_buf_t * buf, char * str)
@@ -106,6 +141,7 @@ int net_buf_add_cstr(struct net_buf_t * buf, char * str)
     }
     
     buf->off += len;
+		return 0;
 }
 
 int net_buf_add_fmt(struct net_buf_t * buf, char * fmt, ...)
@@ -221,8 +257,8 @@ int net_ssl_timeout_read(struct net_serv_t * serv)
 {
     int ret = 0;
     fd_set in;
-    size_t bytes_read;
-    struct timeval timeout = {0};
+    size_t bytes_read = 0;
+    struct timeval timeout;
     int cnt = 0;
     
     if (!serv || serv->max_sock == -1 || serv->sock == -1) {
@@ -278,7 +314,7 @@ int net_ssl_accept_client(struct net_serv_t * serv)
         fprintf(stderr, "error accept failed");
         close(serv->sock);
         serv->sock = -1;
-        return;
+        goto done;
     }
 
     if (serv->client > serv->sock) {
@@ -294,6 +330,7 @@ int net_ssl_accept_client(struct net_serv_t * serv)
     }
     SSL_set_fd(serv->ssl, serv->client);
     SSL_accept(serv->ssl);
-    
+
+done:
     return 0;
 }
