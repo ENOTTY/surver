@@ -6,3 +6,6 @@ all:
 	gcc $(CFLAGS) -c sc.c -o sc.o
 	gcc $(CFLAGS) -c main.c -o main.o
 	gcc -o s sc.o main.o $(LDFLAGS)
+
+clean:
+	rm s *.o
