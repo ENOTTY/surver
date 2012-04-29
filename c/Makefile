@@ -8,3 +8,6 @@ all:
 	gcc $(CFLAGS) -c reqhdlr.c -o reqhdlr.o
 	gcc $(CFLAGS) -c parse.c -o parse.o
 	gcc -o s sc.o reqhdlr.o main.o $(LDFLAGS)
+
+clean:
+	rm s *.o
