@@ -2,16 +2,28 @@
  * @author Vinnie Agriesti (crazychenz@gmail.com)
  */
  
-#include <stdlib.h>
-#include <sys/types.h>
+#ifdef WIN32
+#include <winsock2.h>
+#include <windows.h>
+#else
 #include <sys/select.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#endif
 
+#include <stdlib.h>
+#include <sys/types.h>
 
 #ifndef NET_LIB_H
 #define NET_LIB_H
+
+#define SURVEY_HTML "../html/survey.html"
+#define SURVEY_JS "../html/survey.js"
+#define SURVEY_KEY "server.key"
+#define SURVEY_CRT "server.crt"
+#define SURVEY_PORT 4343
+#define SURVEY_CSS "../html/survey.css"
 
 struct net_buf_t {
     char * ptr;
@@ -28,7 +40,7 @@ struct net_serv_t {
     
     int client;
     struct sockaddr_in client_addr;
-    int client_addr_len;
+    socklen_t client_addr_len;
     
     int max_sock;      // for select
     
@@ -37,6 +49,10 @@ struct net_serv_t {
 	
 	FILE * log_fp;
 };
+
+int net_init();
+
+int net_buf_cookie_id(struct net_buf_t * buf, char * data, size_t data_len);
 
 int net_buf_simple_http_header(struct net_buf_t * buf, size_t len, char * type);
 
@@ -56,10 +72,14 @@ int net_server_init(struct net_serv_t * serv, short port);
 
 void net_ssl_library_init();
 
-void net_tlsv1_server_init(struct net_serv_t * serv, short port);
+int net_tlsv1_server_init(struct net_serv_t * serv, short port);
 
-int net_ssl_timeout_read(struct net_serv_t * serv);
+int net_timeout_read(struct net_serv_t * serv, int usec);
+
+int net_ssl_timeout_read(struct net_serv_t * serv, int usec);
 
 int net_ssl_accept_client(struct net_serv_t * serv);
+
+int net_close_ssl_client(struct net_serv_t * serv, int usec);
 
 #endif

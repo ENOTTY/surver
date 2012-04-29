@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <title>Survey</title>
+        <script type="text/javascript" src="survey.js"></script>
+        <link rel="stylesheet" type="text/css" href="survey.css" media="all" />
+    </head>
+    <body onLoad="addInstructor();addInstructor();">
+        <form name="survey" action="ACTIONSCRIPT" method="POST">
+            <div class="sectionhdr">&nbsp;&nbsp;Course Material & Comments</div>
+            <br />
+            <div>
+                <table>
+                	<tr class="rating">
+                        <td class="ratingdesc">Course Designator:</td>
+                        <td colspan="5"><input type="text" name="course" value="ATNO-" id="id-course" /></td>
+                    </tr>
+                    <tr style="height: 10pt;">
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Bad</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Good</td>
+                    </tr>
+                    <tr class="rating">
+                        	<td class="ratingdesc">Content:</td>
+                        	<td class="rating"><input type="radio" name="cont" value="1" id="id-cont-1" /></td>
+                        	<td class="rating"><input type="radio" name="cont" value="2" id="id-cont-2" /></td>
+                        	<td class="rating"><input type="radio" name="cont" value="3" id="id-cont-3" /></td>
+                        	<td class="rating"><input type="radio" name="cont" value="4" id="id-cont-4" /></td>
+                        	<td class="rating"><input type="radio" name="cont" value="5" id="id-cont-5" /></td>
+                    </tr>
+                    <tr class="rating">
+                        <td class="ratingdesc">Labs:</td>
+                        <td class="rating"><input type="radio" name="labs" value="1" id="id-cont-1" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="2" id="id-cont-2" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="3" id="id-cont-3" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="4" id="id-cont-4" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="5" id="id-cont-5" /></td>
+                    </tr>
+                    <tr class="rating">
+                        <td class="ratingdesc">Organization:</td>
+                        <td class="rating"><input type="radio" name="org" value="1" id="id-cont-1" /></td>
+                        <td class="rating"><input type="radio" name="org" value="2" id="id-cont-2" /></td>
+                        <td class="rating"><input type="radio" name="org" value="3" id="id-cont-3" /></td>
+                        <td class="rating"><input type="radio" name="org" value="4" id="id-cont-4" /></td>
+                        <td class="rating"><input type="radio" name="org" value="5" id="id-cont-5" /></td>
+                    </tr>
+                    <tr class="rating">
+                        <td class="ratingdesc">Comments:</td>
+                        <td colspan="6">
+                        	<textarea name="course-comment" 
+                        	          id="id-course-comment"
+                        	          cols="40" rows="8"></textarea>
+                       	</td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+            <div class="sectionhdr">&nbsp;&nbsp;Instructor Reviews</div>
+            <div id="instructor-reviews"></div>
+            
+            <input type="button" value="Add Instructor" name="add-instructor" onClick="addInstructor();" />
+            <br /><br />
+            <div class="sectionhdr">&nbsp;&nbsp;Optional POC Information</div>
+            <br />
+            <div>
+                Name: <input type="text" name="name" id="id-poc-name" />
+                &nbsp;&nbsp;
+                SID: <input type="text" name="sid" id="id-poc-sid" />
+            </div>
+            <br /><input type="submit" name="submit-survey" />
+        </form>
+    </body>
+
+    <!-- template to use for instructor form -->
+    <div id="instructor-review-template" style="display: none;">
+        <p>        
+        <table>
+        	<tr class="rating">
+                <td class="ratingdesc">Instructor Name:</td>
+                <td colspan="5"><input type="text" name="instname-NUM" id="id-inst-name-NUM" /></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Bad</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Good</td>
+            </tr>
+            <tr class="rating">
+                <td class="ratingdesc">Demonstrated Knowledge:</td>
+                <td class="rating"><input type="radio" name="knowNUM" value="1" id="id-know-1-NUM" /></td>
+                <td class="rating"><input type="radio" name="knowNUM" value="2" id="id-know-2-NUM" /></td>
+                <td class="rating"><input type="radio" name="knowNUM" value="3" id="id-know-3-NUM" /></td>
+                <td class="rating"><input type="radio" name="knowNUM" value="4" id="id-know-4-NUM" /></td>
+                <td class="rating"><input type="radio" name="knowNUM" value="5" id="id-know-5-NUM" /></td>
+            </tr>
+            <tr class="rating">
+                <td class="ratingdesc">Preparedness:</td>
+                <td class="rating"><input type="radio" name="prepNUM" value="1" id="id-prep-1-NUM" /></td>
+                <td class="rating"><input type="radio" name="prepNUM" value="2" id="id-prep-2-NUM" /></td>
+                <td class="rating"><input type="radio" name="prepNUM" value="3" id="id-prep-3-NUM" /></td>
+                <td class="rating"><input type="radio" name="prepNUM" value="4" id="id-prep-4-NUM" /></td>
+                <td class="rating"><input type="radio" name="prepNUM" value="5" id="id-prep-5-NUM" /></td>
+            </tr>
+            <tr class="rating">
+                <td class="ratingdesc">Communication Skills:</td>
+                <td class="rating"><input type="radio" name="commNUM" value="1" id="id-comm-1-NUM" /></td>
+                <td class="rating"><input type="radio" name="commNUM" value="2" id="id-comm-2-NUM" /></td>
+                <td class="rating"><input type="radio" name="commNUM" value="3" id="id-comm-3-NUM" /></td>
+                <td class="rating"><input type="radio" name="commNUM" value="4" id="id-comm-4-NUM" /></td>
+                <td class="rating"><input type="radio" name="commNUM" value="5" id="id-comm-5-NUM" /></td>
+            </tr>
+            <tr class="rating">
+            	<td class="ratingdesc">Comments:</td>
+        		<td colspan="5">
+        			<textarea name="instructor-comment-NUM" 
+        			          id="id-instructor-comment-NUM"
+        			          cols="40" rows="5"></textarea>
+        		</td>
+            </tr>
+        </table>
+        <div class="instructorhdr">&nbsp;&nbsp;</div>
+        </p>
+    </div>
+
+</html>
