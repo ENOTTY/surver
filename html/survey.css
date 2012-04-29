@@ -1,0 +1,26 @@
+tr.rating:hover { background-color: #EDA; } 
+td.rating { 
+	width: 50pt;
+	height: 25pt;
+}
+table { border-spacing: 0; }
+body { font-family: arial; }
+
+div.sectionhdr {
+	background-color: #333;
+	line-height: 2em;
+	color: #EEE;
+	width: 100%;
+	height: 2em;
+}
+
+td.ratingdesc {
+	width: 150pt;
+}
+
+div.instructorhdr {
+	line-height: 1em;
+	height: 1em;
+	width: 100%;
+	background-color: #333;
+}
