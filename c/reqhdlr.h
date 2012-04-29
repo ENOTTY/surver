@@ -13,6 +13,8 @@ extern char * form;
 extern size_t form_len;
 extern char * js;
 extern size_t js_len;
+extern char * css;
+extern size_t css_len;
 
 int file_write_base64(FILE * fp, char * data, size_t data_len);
 

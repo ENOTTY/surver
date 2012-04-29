@@ -100,6 +100,10 @@ int process_request(struct net_serv_t * serv)
 	if (!memcmp(serv->buf, "GET /survey.js ", 15)) {
 		show_http(serv, js, js_len, 0);
 	}
+
+	if (!memcmp(serv->buf, "GET /survey.css ", 16)) {
+		show_http(serv, css, css_len, 0);
+	}
 	
 	if (!serv->buf[serv->buf_off] && !memcmp(serv->buf, "POST ", 5) &&
 			strstr(serv->buf, "\r\n\r\n")) {

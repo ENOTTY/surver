@@ -23,6 +23,8 @@
 #define SURVEY_KEY "server.key"
 #define SURVEY_CRT "server.crt"
 #define SURVEY_PORT 4343
+#define SURVEY_CSS "../html/survey.css"
+
 struct net_buf_t {
     char * ptr;
     size_t len;
