@@ -20,9 +20,9 @@
 
 #define SURVEY_HTML "../html/survey.html"
 #define SURVEY_JS "../html/survey.js"
-#define SURVEY_KEY "survey.key"
-#define SURVEY_CRT "survey.crt"
-
+#define SURVEY_KEY "server.key"
+#define SURVEY_CRT "server.crt"
+#define SURVEY_PORT 4343
 struct net_buf_t {
     char * ptr;
     size_t len;
@@ -50,6 +50,8 @@ struct net_serv_t {
 
 int net_init();
 
+int net_buf_cookie_id(struct net_buf_t * buf, char * data, size_t data_len);
+
 int net_buf_simple_http_header(struct net_buf_t * buf, size_t len, char * type);
 
 int file_load(char * fname, char ** data, size_t * data_len);
@@ -68,10 +70,14 @@ int net_server_init(struct net_serv_t * serv, short port);
 
 void net_ssl_library_init();
 
-void net_tlsv1_server_init(struct net_serv_t * serv, short port);
+int net_tlsv1_server_init(struct net_serv_t * serv, short port);
 
-int net_ssl_timeout_read(struct net_serv_t * serv);
+int net_timeout_read(struct net_serv_t * serv, int usec);
+
+int net_ssl_timeout_read(struct net_serv_t * serv, int usec);
 
 int net_ssl_accept_client(struct net_serv_t * serv);
+
+int net_close_ssl_client(struct net_serv_t * serv, int usec);
 
 #endif

@@ -5,4 +5,6 @@ LDFLAGS = -lssl -lcrypto
 all:
 	gcc $(CFLAGS) -c sc.c -o sc.o
 	gcc $(CFLAGS) -c main.c -o main.o
-	gcc -o s sc.o main.o $(LDFLAGS)
+	gcc $(CFLAGS) -c reqhdlr.c -o reqhdlr.o
+	gcc $(CFLAGS) -c parse.c -o parse.o
+	gcc -o s sc.o reqhdlr.o main.o $(LDFLAGS)
