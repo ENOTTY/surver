@@ -44,3 +44,5 @@ surver could take a public key as input to use for encryption then print the bas
 * PKI to avoid instructor server spying
 * specify instructors on start
 * more complex mungers
+* checksumming / ecc
+* passing JSON objects by POST might make parsing easier
