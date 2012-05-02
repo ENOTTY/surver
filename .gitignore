@@ -1,3 +1,9 @@
 *.swp
 *~
 *.pyc
+*.o
+*.crt
+*.csr
+*.key
+*.key.locked
+*.log
