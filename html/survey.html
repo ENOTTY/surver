@@ -1,18 +1,19 @@
 <html>
     <head>
         <title>Survey</title>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
         <script type="text/javascript" src="survey.js"></script>
         <link rel="stylesheet" type="text/css" href="survey.css" media="all" />
     </head>
     <body onLoad="addInstructor();addInstructor();">
-        <form name="survey" action="ACTIONSCRIPT" method="POST">
+        <form id="survey" name="survey" action="ACTIONSCRIPT" method="POST">
             <div class="sectionhdr">&nbsp;&nbsp;Course Material & Comments</div>
             <br />
             <div>
                 <table>
                 	<tr class="rating">
                         <td class="ratingdesc">Course Designator:</td>
-                        <td colspan="5"><input type="text" name="course" value="ATNO-" id="id-course" /></td>
+                        <td colspan="5"><input type="text" name="course" value="" id="id-course" /></td>
                     </tr>
                     <tr style="height: 10pt;">
                     </tr>
@@ -34,19 +35,19 @@
                     </tr>
                     <tr class="rating">
                         <td class="ratingdesc">Labs:</td>
-                        <td class="rating"><input type="radio" name="labs" value="1" id="id-cont-1" /></td>
-                        <td class="rating"><input type="radio" name="labs" value="2" id="id-cont-2" /></td>
-                        <td class="rating"><input type="radio" name="labs" value="3" id="id-cont-3" /></td>
-                        <td class="rating"><input type="radio" name="labs" value="4" id="id-cont-4" /></td>
-                        <td class="rating"><input type="radio" name="labs" value="5" id="id-cont-5" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="1" id="id-labs-1" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="2" id="id-labs-2" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="3" id="id-labs-3" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="4" id="id-labs-4" /></td>
+                        <td class="rating"><input type="radio" name="labs" value="5" id="id-labs-5" /></td>
                     </tr>
                     <tr class="rating">
                         <td class="ratingdesc">Organization:</td>
-                        <td class="rating"><input type="radio" name="org" value="1" id="id-cont-1" /></td>
-                        <td class="rating"><input type="radio" name="org" value="2" id="id-cont-2" /></td>
-                        <td class="rating"><input type="radio" name="org" value="3" id="id-cont-3" /></td>
-                        <td class="rating"><input type="radio" name="org" value="4" id="id-cont-4" /></td>
-                        <td class="rating"><input type="radio" name="org" value="5" id="id-cont-5" /></td>
+                        <td class="rating"><input type="radio" name="org" value="1" id="id-organization-1" /></td>
+                        <td class="rating"><input type="radio" name="org" value="2" id="id-organization-2" /></td>
+                        <td class="rating"><input type="radio" name="org" value="3" id="id-organization-3" /></td>
+                        <td class="rating"><input type="radio" name="org" value="4" id="id-organization-4" /></td>
+                        <td class="rating"><input type="radio" name="org" value="5" id="id-organization-5" /></td>
                     </tr>
                     <tr class="rating">
                         <td class="ratingdesc">Comments:</td>

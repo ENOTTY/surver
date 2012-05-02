@@ -58,3 +58,48 @@ function addInstructor()
     // Increment the counter id
     count += 1;
 }
+
+function put(data, callback) {
+	$.ajax('/', {
+		type: 'POST',
+		data: JSON.stringify(data),
+		contentType: 'text/json',
+		success: function() { if ( callback ) callback(true); },
+		error: function() { if ( callback ) callback(false); },
+	});
+}
+
+function getCheckedValue(elems, name) {
+	var i;
+	for (i = 0; i < elems.length; ++i) {
+		if (elems[i].name == name)
+			return elems[i].value;
+	}
+	return null;
+}
+
+$(function() {
+	$('#survey').submit(function(e) {
+		e.preventDefault();
+
+		var checked = $('input:checked');
+
+		var entry = new Object();
+		entry.course = $('#id-course').val();
+		entry.content = getCheckedValue(checked, 'cont');
+		entry.labs = getCheckedValue(checked, 'labs');
+		entry.organization = getCheckedValue(checked, 'org');
+		entry.courseComment = $('#id-course-comment').val();
+		entry.name = $('#id-poc-name').val();
+		entry.sid = $('#id-poc-sid').val();
+
+		put(entry, function(success) {
+			if (success) {
+				alert('success!');
+			} else {
+				alert('error!');
+			}
+		});
+	});
+});
+
