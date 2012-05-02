@@ -27,7 +27,7 @@ class Client:
   def __init__(self, ip, mac, cookie, useragent, more):
     self.ip = ip
     self.mac = mac
-    self.cooke = cookie
+    self.cookie = cookie
     self.ua = useragent
     self.attrMap = more
 
@@ -95,11 +95,11 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     else:
       useragent = self.headers['user-agent']
 
-     if not 'cookie' in self.headers.keys():
-       cookie = ''
-       # TODO bail out if no cookie?
-     else:
-       cookie = self.headers['cookie']
+    if not 'cookie' in self.headers.keys():
+      cookie = ''
+      # TODO bail out if no cookie?
+    else:
+      cookie = self.headers['cookie']
 
     prefix = [str(self.client_address[0]), str(self.client_address[1]), useragent]
     data = self.rfile.read(length)
@@ -115,7 +115,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 if __name__ == '__main__':
   print >> sys.stderr, 'starting.......'
   server_class = BaseHTTPServer.HTTPServer
-  httpd = server_class(('127.0.0.1', 8888), MyHandler)
+  httpd = server_class(('0.0.0.0', 8888), MyHandler)
   if USESSL:
     httpd.socket = ssl.wrap_socket(httpd.socket, keyfile=KEYFILE, certfile=CERT, server_side=True)
   httpd.serve_forever()
