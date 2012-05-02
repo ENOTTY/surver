@@ -93,6 +93,19 @@ $(function() {
 		entry.name = $('#id-poc-name').val();
 		entry.sid = $('#id-poc-sid').val();
 
+		entry.instructors = new Array();
+		for (i=0; i < 10; ++i) { //more than 10 instructors?
+			var nameElem = $('[name=instname-'+i+']');
+			if (nameElem.length != 1)
+				break;
+			var instructor = new Object();
+			entry.instructors[i] = instructor;
+			instructor.name = nameElem.val();
+			instructor.knowledge = getCheckedValue(checked, "know"+i);
+			instructor.prep = getCheckedValue(checked, "prep"+i);
+			instructor.comm = getCheckedValue(checked, "comm"+i);
+		}
+
 		put(entry, function(success) {
 			if (success) {
 				alert('success!');
