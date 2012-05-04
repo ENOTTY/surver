@@ -104,6 +104,7 @@ $(function() {
 			instructor.knowledge = getCheckedValue(checked, "know"+i);
 			instructor.prep = getCheckedValue(checked, "prep"+i);
 			instructor.comm = getCheckedValue(checked, "comm"+i);
+			instructor.comment = $('[name=instructor-comment-'+i+']').val();
 		}
 
 		put(entry, function(success) {
