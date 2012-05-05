@@ -66,8 +66,7 @@ def dumpCSV():
   hdr = [e for e in RESP_ATTRS if type(e) == str];
   for e in [e for e in RESP_ATTRS if type(e) == dict]:
     key = e.keys()[0]
-    name = instructors[i]
-    hdr += [name+'-'+s for s in e[key]]*len(instructors)
+    hdr += [key+'-'+s for s in e[key]]
   print hdr
 
 if __name__ == "__main__":
