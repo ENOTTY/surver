@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="survey.xsl"?> 
+
+<survey>
+
+	<rate-scale>
+		<rate value="1">Bad</rate>
+		<rate value="2"></rate>
+		<rate value="3"></rate>
+		<rate value="4"></rate>
+		<rate value="5">Good</rate>
+	</rate-scale>
+
+	<course>
+		<field attr="course" default="ATNO-">Course Designator</field>
+		<rating attr="cont">Content</rating>
+		<rating attr="labs">Labs</rating>
+		<rating attr="org">Organization</rating>
+		<question>Comments</question>
+	</course>
+	
+	<instructor>
+		<field attr="instname-NUM">Instructor Name</field>
+		<rating attr="know">Demonstrated Knowledge</rating>
+		<rating attr="prep">Preparedness</rating>
+		<rating attr="comm">Communication Skills</rating>
+		<question>Comments</question>
+	</instructor>
+	
+</survey>
