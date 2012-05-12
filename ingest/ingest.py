@@ -4,6 +4,7 @@ import sys
 import base64
 import urlparse
 import random
+import csv
 
 # Delimeter between form responses
 ENTRYDELIM = '----'
@@ -50,8 +51,18 @@ def processLine(s):
 
 # Dump data to CSV
 def dumpCSV():
-  print course_responses
-  print inst_responses
+  writer = csv.DictWriter(sys.stdout,
+      ['name', 'content', 'labs', 'org', 'comment', 'respondent',
+        'respond-sid', 'id'])
+  #do we want a header?
+
+  for r in course_responses:
+    writer.writerow(r);
+
+  writer = csv.DictWriter(sys.stdout,
+      ['name', 'know', 'prep', 'comm', 'comments', 'respid'])
+  for r in inst_responses:
+    writer.writerow(r)
 
 if __name__ == "__main__":
 
