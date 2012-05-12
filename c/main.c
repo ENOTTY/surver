@@ -45,6 +45,8 @@ char * js = NULL;
 size_t js_len = 0;
 char * css = NULL;
 size_t css_len = 0;
+char * json = NULL;
+size_t json_len = 0;
 
 int file_load(char * fname, char ** data, size_t * data_len)
 {
@@ -107,6 +109,7 @@ int main()
 	file_load(SURVEY_HTML, &form, &form_len);
 	file_load(SURVEY_JS, &js, &js_len);
 	file_load(SURVEY_CSS, &css, &css_len);
+	file_load(JSON_JS, &json, &json_len);
 
 	// If server goes belly up, we'll just attempt to re-init it.    
 	for (;;) { 

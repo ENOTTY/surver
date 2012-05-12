@@ -20,10 +20,11 @@
 
 #define SURVEY_HTML "../html/survey.html"
 #define SURVEY_JS "../html/survey.js"
+#define SURVEY_CSS "../html/survey.css"
+#define JSON_JS "../html/json2.js"
 #define SURVEY_KEY "server.key"
 #define SURVEY_CRT "server.crt"
 #define SURVEY_PORT 4343
-#define SURVEY_CSS "../html/survey.css"
 
 struct net_buf_t {
     char * ptr;

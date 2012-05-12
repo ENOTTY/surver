@@ -15,6 +15,8 @@ extern char * js;
 extern size_t js_len;
 extern char * css;
 extern size_t css_len;
+extern char * json;
+extern size_t json_len;
 
 int file_write_base64(FILE * fp, char * data, size_t data_len);
 
