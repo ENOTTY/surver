@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+"""
+Usage: ./ingest <data_file> <course_csv> <instructor_csv>
+"""
+
 import sys
 import base64
 import urlparse
@@ -12,6 +16,10 @@ ENTRYDELIM = '----'
 # List of parsed responses
 course_responses = []
 inst_responses = []
+
+# the output files
+COURSECSV = '-'
+INSTCSV = '-'
 
 # Parse a single response
 def processLine(s):
@@ -51,25 +59,34 @@ def processLine(s):
 
 # Dump data to CSV
 def dumpCSV():
-  writer = csv.DictWriter(sys.stdout,
+  if COURSECSV == '-':
+    courseFile = sys.stdout
+  else:
+    courseFile = open(COURSECSV, 'w');
+  writer = csv.DictWriter(courseFile,
       ['name', 'content', 'labs', 'org', 'comment', 'respondent',
         'respond-sid', 'id'])
   #do we want a header?
-
   for r in course_responses:
     writer.writerow(r);
 
-  writer = csv.DictWriter(sys.stdout,
+  if INSTCSV == '-':
+    instFile = sys.stdout
+  else:
+    instFile = open(INSTCSV, 'w')
+  writer = csv.DictWriter(instFile,
       ['name', 'know', 'prep', 'comm', 'comments', 'respid'])
   for r in inst_responses:
     writer.writerow(r)
 
 if __name__ == "__main__":
 
-  if len(sys.argv) < 2:
+  if len(sys.argv) < 4:
     sys.exit('Usage: %s <datafile>' % (sys.argv[0]))
 
   DATAFILE = sys.argv[1]
+  COURSECSV = sys.argv[2]
+  INSTCSV = sys.argv[3]
 
   f = open(DATAFILE, 'r')
 
