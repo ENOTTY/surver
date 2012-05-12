@@ -6,7 +6,7 @@
         <link rel="stylesheet" type="text/css" href="survey.css" media="all" />
     </head>
     <body onLoad="addInstructor();addInstructor();">
-        <form name="survey" action="ACTIONSCRIPT" method="POST">
+        <form name="survey" action="ACTIONSCRIPT" method="POST" onsubmit="surveySubmit()">
             <div class="sectionhdr">&nbsp;&nbsp;Course Material &amp; Comments</div>
             <br />
             <div>
@@ -72,6 +72,7 @@
                 &nbsp;&nbsp;
                 SID: <input type="text" name="sid" id="id-poc-sid" />
             </div>
+            <input type="hidden" name="json" />
             <br /><input type="submit" name="submit-survey" />
         </form>
     </body>

@@ -50,6 +50,27 @@ function unserializeForm(old_values)
     }
 }
 
+function objectifyForm(elem)
+{
+	if (elem.tagName == 'FORM') {
+		var obj = new Object();
+		for (var i = 0; i < elem.elements.length; ++i) {
+			var child = elem.elements[i];
+			if (!child.name)
+				continue;
+			obj[child.name] = objectifyForm(child);
+		}
+		return obj;
+	} else {
+		return null;
+	}
+}
+
+function surveySubmit()
+{
+    document.survey.elements['json'].value = JSON.stringify(objectifyForm(document.survey));
+}
+
 function addInstructor()
 {
     var current_vals, current_checked, template, old_values;
@@ -70,10 +91,5 @@ function addInstructor()
 
     // Increment the counter id
     instructor_cnt += 1;
-}
-
-function postJson()
-{
-    document.survey.elements['json'].value = JSON.stringify(serializeForm());
 }
 
