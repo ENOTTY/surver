@@ -116,9 +116,8 @@ int process_request(struct net_serv_t * serv)
 		
 		// Dump content base64 encoded to log file
 		if (serv->log_fp) {
-			fwrite("----\r\n", 1, 6, serv->log_fp);
 			file_write_base64(serv->log_fp, content, content_len);
-			fwrite("\r\n", 1, 2, serv->log_fp);
+			fwrite("----\r\n", 1, 6, serv->log_fp);
 			fflush(serv->log_fp);
 		}
 		
