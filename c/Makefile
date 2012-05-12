@@ -1,4 +1,4 @@
-CFLAGS = -g -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra
 # if mingw, you need to add -lws2_32 and -lgdi32
 LDFLAGS = -lssl -lcrypto
 
