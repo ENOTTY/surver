@@ -2,10 +2,10 @@ var instructor_cnt = new Number(0);
 
 function serializeForm()
 {
-	var old_values = new Array();
-	var itr, obj;
-	
-	for (var i = 0; i < document.survey.elements.length; i++) {
+    var old_values = new Array();
+    var itr, obj;
+        
+    for (var i = 0; i < document.survey.elements.length; i++) {
         itr = document.survey.elements[i];
 
         // Only backup elements with IDs
@@ -30,12 +30,12 @@ function serializeForm()
         }
     }
 
-	return old_values;
+    return old_values;
 }
 
 function unserializeForm(old_values)
 {
-	var itr;
+    var itr;
     // Apply the new form code
     for (var i = 0; i < old_values.length; i++) {
         itr = document.getElementById(old_values[i].id);
@@ -54,11 +54,11 @@ function addInstructor()
 {
     var current_vals, current_checked, template, old_values;
 
-		// This is a hardcoded bound
+    // This is a hardcoded bound
     if (instructor_cnt >= 99)
         return;
 
-		old_values = serializeForm();	
+    old_values = serializeForm();       
 
     template = document.getElementById("instructor-review-template").innerHTML;
     template = template.replace(/NUM/g, instructor_cnt);
@@ -66,7 +66,7 @@ function addInstructor()
     // Append the new form code
     document.getElementById("instructor-reviews").innerHTML += template;
 
-		unserializeForm(old_values);
+    unserializeForm(old_values);
 
     // Increment the counter id
     instructor_cnt += 1;
@@ -74,6 +74,6 @@ function addInstructor()
 
 function postJson()
 {
-	document.survey.elements['json'].value = JSON.stringify(serializeForm());
+    document.survey.elements['json'].value = JSON.stringify(serializeForm());
 }
 
