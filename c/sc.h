@@ -24,6 +24,8 @@
 #define SURVEY_CRT "server.crt"
 #define SURVEY_PORT 4343
 #define SURVEY_CSS "../html/survey.css"
+#define SURVEY_XML "../html/survey.xml"
+#define SURVEY_XSL "../html/survey.xsl"
 
 struct net_buf_t {
     char * ptr;
@@ -54,7 +56,7 @@ int net_init();
 
 int net_buf_cookie_id(struct net_buf_t * buf, char * data, size_t data_len);
 
-int net_buf_simple_http_header(struct net_buf_t * buf, size_t len, char * type);
+int net_buf_simple_http_header(struct net_buf_t * buf, size_t len, const char * type);
 
 int file_load(char * fname, char ** data, size_t * data_len);
 

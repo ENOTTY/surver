@@ -77,7 +77,7 @@ int net_buf_cookie_id(struct net_buf_t * buf, char * data, size_t data_len)
 	return 0;
 }
 
-int net_buf_simple_http_header(struct net_buf_t * buf, size_t len, char * type)
+int net_buf_simple_http_header(struct net_buf_t * buf, size_t len, const char * type)
 {
 	if (!buf || !len || !type) {
 		return -EINVAL;
@@ -435,6 +435,8 @@ int net_ssl_accept_client(struct net_serv_t * serv)
 	serv->client = accept(serv->sock, (struct sockaddr *)&serv->client_addr, 
   	                    &serv->client_addr_len);
 
+	fprintf(stderr, "Accepted client on socket %d\n", serv->client);
+
 	// Setup client connection for nodelay (prevents premature resets)
 	setsockopt(serv->client, IPPROTO_TCP, TCP_NODELAY, 
 	           (char *)&flag, sizeof(flag));
@@ -466,11 +468,17 @@ int net_ssl_accept_client(struct net_serv_t * serv)
 		fprintf(stderr, "Failed to bind client socket to ssl socket\n");
 		goto done;
 	}
-	if (1 != SSL_accept(serv->ssl)) {
+
+	ret = SSL_accept(serv->ssl);
+	if (1 != ret && 0 != ret) {
+		fprintf(stderr, "errno = %d\n", errno);
+		fprintf(stderr, "Failed to establish SSL connection (ret = %d)\n", ret);
+		fprintf(stderr, "SSL_get_error() = %d\n", SSL_get_error(serv->ssl, ret));
 		ret = EPERM;
-		fprintf(stderr, "Failed to establish SSL connection\n");
 		goto done;
 	}
+	ret = 0;
+	fprintf(stderr, "SSL setup\n");
 
 done:
 
