@@ -12,19 +12,19 @@
 	</rate-scale>
 
 	<course>
-		<field attr="course" default="ATNO-">Course Designator</field>
-		<rating attr="cont">Content</rating>
-		<rating attr="labs">Labs</rating>
-		<rating attr="org">Organization</rating>
-		<question>Comments</question>
+		<field attr="course-name" default="ATNO-">Course Designator</field>
+		<rating attr="course-content">Content</rating>
+		<rating attr="course-labs">Labs</rating>
+		<rating attr="course-org">Organization</rating>
+		<question attr="course-comment">Comments</question>
 	</course>
 	
 	<instructor>
-		<field attr="instname-NUM">Instructor Name</field>
-		<rating attr="know">Demonstrated Knowledge</rating>
-		<rating attr="prep">Preparedness</rating>
-		<rating attr="comm">Communication Skills</rating>
-		<question>Comments</question>
+		<field attr="inst-name-NUM">Instructor Name</field>
+		<rating attr="inst-know-">Demonstrated Knowledge</rating>
+		<rating attr="inst-prep-">Preparedness</rating>
+		<rating attr="inst-comm-">Communication Skills</rating>
+		<question attr="inst-comment-">Comments</question>
 	</instructor>
 	
 </survey>
