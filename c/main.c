@@ -45,6 +45,10 @@ char * js = NULL;
 size_t js_len = 0;
 char * css = NULL;
 size_t css_len = 0;
+char * xml = NULL;
+size_t xml_len = 0;
+char * xsl = NULL;
+size_t xsl_len = 0;
 
 int file_load(char * fname, char ** data, size_t * data_len)
 {
@@ -107,6 +111,8 @@ int main()
 	file_load(SURVEY_HTML, &form, &form_len);
 	file_load(SURVEY_JS, &js, &js_len);
 	file_load(SURVEY_CSS, &css, &css_len);
+	file_load(SURVEY_XML, &xml, &xml_len);
+	file_load(SURVEY_XSL, &xsl, &xsl_len);
 
 	// If server goes belly up, we'll just attempt to re-init it.    
 	for (;;) { 
@@ -116,6 +122,8 @@ int main()
 			fprintf(stderr, "Failed to restart service.\n");
 			break;
 		}
+		
+		fprintf(stderr, "Started service... listening on socket: %d\n", serv.sock);
 
 		// For simplicity, we're going to be single threaded, meaning
 		// we're only servicing one connection at a time.
