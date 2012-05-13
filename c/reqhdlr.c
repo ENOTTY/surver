@@ -37,7 +37,7 @@ int file_write_base64(FILE * fp, char * data, size_t data_len)
 	bio = BIO_push(b64, bio);
 	
 	BIO_write(bio, data, data_len);
-	//BIO_flush(bio);
+	BIO_flush(bio);
 	
 	BIO_free_all(bio);
 
@@ -45,7 +45,8 @@ int file_write_base64(FILE * fp, char * data, size_t data_len)
 }
 
 int show_http(struct net_serv_t * serv, 
-              char * data, size_t data_len, int add_cookie)
+              char * data, size_t data_len, 
+              const char * type, int add_cookie)
 {
 	struct net_buf_t hdr;
 	struct net_buf_t body;
@@ -61,13 +62,13 @@ int show_http(struct net_serv_t * serv,
 	
 	// Build the HTTP headers
 	net_buf_sizer(&hdr);
-	net_buf_simple_http_header(&hdr, body.len, "text/html");
+	net_buf_simple_http_header(&hdr, body.len, type);
 	if (add_cookie) {
 		net_buf_cookie_id(&hdr, serv->buf, serv->buf_off);
 	}
 	net_buf_add_cstr(&hdr, "\r\n");
 	net_buf_alloc(&hdr);
-	net_buf_simple_http_header(&hdr, body.len, "text/html");
+	net_buf_simple_http_header(&hdr, body.len, type);
 	if (add_cookie) {
 		net_buf_cookie_id(&hdr, serv->buf, serv->buf_off);
 	}
@@ -94,15 +95,23 @@ int process_request(struct net_serv_t * serv)
 	// Process request
 	if (!memcmp(serv->buf, "GET / ", 6) || 
 			!memcmp(serv->buf, "GET /survey.html ", 17)) {
-		show_http(serv, form, form_len, add_cookie);
+		show_http(serv, form, form_len, "text/html", add_cookie);
 	}
 	
 	if (!memcmp(serv->buf, "GET /survey.js ", 15)) {
-		show_http(serv, js, js_len, 0);
+		show_http(serv, js, js_len, "text/javascript", 0);
 	}
 
 	if (!memcmp(serv->buf, "GET /survey.css ", 16)) {
-		show_http(serv, css, css_len, 0);
+		show_http(serv, css, css_len, "text/css", 0);
+	}
+
+	if (!memcmp(serv->buf, "GET /survey.xml ", 16)) {
+		show_http(serv, xml, xml_len, "text/xml", 0);
+	}
+
+	if (!memcmp(serv->buf, "GET /survey.xsl ", 16)) {
+		show_http(serv, xsl, xsl_len, "text/xsl", 0);
 	}
 	
 	if (!serv->buf[serv->buf_off] && !memcmp(serv->buf, "POST ", 5) &&
@@ -111,19 +120,23 @@ int process_request(struct net_serv_t * serv)
 		// Grab a pointer to the content
 		content = strstr(serv->buf, "\r\n\r\n") + 4;
 		content_len = serv->buf_off - (content - serv->buf);
+
+		//fprintf(stderr, "%s expected length: %lu\n",
+		//		__func__, content_len);
 		
 		//process_post(content, content_len);
 		
 		// Dump content base64 encoded to log file
 		if (serv->log_fp) {
-			fwrite("----\r\n", 1, 6, serv->log_fp);
 			file_write_base64(serv->log_fp, content, content_len);
+			fflush(serv->log_fp);
 			fwrite("\r\n", 1, 2, serv->log_fp);
+			fwrite("----\r\n", 1, 6, serv->log_fp);
 			fflush(serv->log_fp);
 		}
 		
 		// Dump an empty form
-		show_http(serv, form, form_len, add_cookie);
+		show_http(serv, form, form_len, "text/html", add_cookie);
 	}
 	
 	return 0;

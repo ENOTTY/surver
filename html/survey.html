@@ -6,13 +6,13 @@
     </head>
     <body onLoad="addInstructor();addInstructor();">
         <form name="survey" action="ACTIONSCRIPT" method="POST">
-            <div class="sectionhdr">&nbsp;&nbsp;Course Material & Comments</div>
+            <div class="sectionhdr">&nbsp;&nbsp;Course Material &amp; Comments</div>
             <br />
             <div>
                 <table>
                 	<tr class="rating">
                         <td class="ratingdesc">Course Designator:</td>
-                        <td colspan="5"><input type="text" name="course" value="ATNO-" id="id-course" /></td>
+                        <td colspan="5"><input type="text" name="course-name" value="" id="id-course" /></td>
                     </tr>
                     <tr style="height: 10pt;">
                     </tr>
@@ -26,27 +26,27 @@
                     </tr>
                     <tr class="rating">
                         	<td class="ratingdesc">Content:</td>
-                        	<td class="rating"><input type="radio" name="cont" value="1" id="id-cont-1" /></td>
-                        	<td class="rating"><input type="radio" name="cont" value="2" id="id-cont-2" /></td>
-                        	<td class="rating"><input type="radio" name="cont" value="3" id="id-cont-3" /></td>
-                        	<td class="rating"><input type="radio" name="cont" value="4" id="id-cont-4" /></td>
-                        	<td class="rating"><input type="radio" name="cont" value="5" id="id-cont-5" /></td>
+                        	<td class="rating"><input type="radio" name="course-content" value="1" id="id-cont-1" /></td>
+                        	<td class="rating"><input type="radio" name="course-content" value="2" id="id-cont-2" /></td>
+                        	<td class="rating"><input type="radio" name="course-content" value="3" id="id-cont-3" /></td>
+                        	<td class="rating"><input type="radio" name="course-content" value="4" id="id-cont-4" /></td>
+                        	<td class="rating"><input type="radio" name="course-content" value="5" id="id-cont-5" /></td>
                     </tr>
                     <tr class="rating">
                         <td class="ratingdesc">Labs:</td>
-                        <td class="rating"><input type="radio" name="labs" value="1" id="id-cont-1" /></td>
-                        <td class="rating"><input type="radio" name="labs" value="2" id="id-cont-2" /></td>
-                        <td class="rating"><input type="radio" name="labs" value="3" id="id-cont-3" /></td>
-                        <td class="rating"><input type="radio" name="labs" value="4" id="id-cont-4" /></td>
-                        <td class="rating"><input type="radio" name="labs" value="5" id="id-cont-5" /></td>
+                        <td class="rating"><input type="radio" name="course-labs" value="1" id="id-labs-1" /></td>
+                        <td class="rating"><input type="radio" name="course-labs" value="2" id="id-labs-2" /></td>
+                        <td class="rating"><input type="radio" name="course-labs" value="3" id="id-labs-3" /></td>
+                        <td class="rating"><input type="radio" name="course-labs" value="4" id="id-labs-4" /></td>
+                        <td class="rating"><input type="radio" name="course-labs" value="5" id="id-labs-5" /></td>
                     </tr>
                     <tr class="rating">
                         <td class="ratingdesc">Organization:</td>
-                        <td class="rating"><input type="radio" name="org" value="1" id="id-cont-1" /></td>
-                        <td class="rating"><input type="radio" name="org" value="2" id="id-cont-2" /></td>
-                        <td class="rating"><input type="radio" name="org" value="3" id="id-cont-3" /></td>
-                        <td class="rating"><input type="radio" name="org" value="4" id="id-cont-4" /></td>
-                        <td class="rating"><input type="radio" name="org" value="5" id="id-cont-5" /></td>
+                        <td class="rating"><input type="radio" name="course-org" value="1" id="id-organization-1" /></td>
+                        <td class="rating"><input type="radio" name="course-org" value="2" id="id-organization-2" /></td>
+                        <td class="rating"><input type="radio" name="course-org" value="3" id="id-organization-3" /></td>
+                        <td class="rating"><input type="radio" name="course-org" value="4" id="id-organization-4" /></td>
+                        <td class="rating"><input type="radio" name="course-org" value="5" id="id-organization-5" /></td>
                     </tr>
                     <tr class="rating">
                         <td class="ratingdesc">Comments:</td>
@@ -81,7 +81,7 @@
         <table>
         	<tr class="rating">
                 <td class="ratingdesc">Instructor Name:</td>
-                <td colspan="5"><input type="text" name="instname-NUM" id="id-inst-name-NUM" /></td>
+                <td colspan="5"><input type="text" name="inst-name-NUM" id="id-inst-name-NUM" /></td>
             </tr>
             <tr>
                 <td></td>
@@ -93,32 +93,32 @@
             </tr>
             <tr class="rating">
                 <td class="ratingdesc">Demonstrated Knowledge:</td>
-                <td class="rating"><input type="radio" name="knowNUM" value="1" id="id-know-1-NUM" /></td>
-                <td class="rating"><input type="radio" name="knowNUM" value="2" id="id-know-2-NUM" /></td>
-                <td class="rating"><input type="radio" name="knowNUM" value="3" id="id-know-3-NUM" /></td>
-                <td class="rating"><input type="radio" name="knowNUM" value="4" id="id-know-4-NUM" /></td>
-                <td class="rating"><input type="radio" name="knowNUM" value="5" id="id-know-5-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-know-NUM" value="1" id="id-know-1-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-know-NUM" value="2" id="id-know-2-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-know-NUM" value="3" id="id-know-3-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-know-NUM" value="4" id="id-know-4-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-know-NUM" value="5" id="id-know-5-NUM" /></td>
             </tr>
             <tr class="rating">
                 <td class="ratingdesc">Preparedness:</td>
-                <td class="rating"><input type="radio" name="prepNUM" value="1" id="id-prep-1-NUM" /></td>
-                <td class="rating"><input type="radio" name="prepNUM" value="2" id="id-prep-2-NUM" /></td>
-                <td class="rating"><input type="radio" name="prepNUM" value="3" id="id-prep-3-NUM" /></td>
-                <td class="rating"><input type="radio" name="prepNUM" value="4" id="id-prep-4-NUM" /></td>
-                <td class="rating"><input type="radio" name="prepNUM" value="5" id="id-prep-5-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-prep-NUM" value="1" id="id-prep-1-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-prep-NUM" value="2" id="id-prep-2-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-prep-NUM" value="3" id="id-prep-3-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-prep-NUM" value="4" id="id-prep-4-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-prep-NUM" value="5" id="id-prep-5-NUM" /></td>
             </tr>
             <tr class="rating">
                 <td class="ratingdesc">Communication Skills:</td>
-                <td class="rating"><input type="radio" name="commNUM" value="1" id="id-comm-1-NUM" /></td>
-                <td class="rating"><input type="radio" name="commNUM" value="2" id="id-comm-2-NUM" /></td>
-                <td class="rating"><input type="radio" name="commNUM" value="3" id="id-comm-3-NUM" /></td>
-                <td class="rating"><input type="radio" name="commNUM" value="4" id="id-comm-4-NUM" /></td>
-                <td class="rating"><input type="radio" name="commNUM" value="5" id="id-comm-5-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-comm-NUM" value="1" id="id-comm-1-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-comm-NUM" value="2" id="id-comm-2-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-comm-NUM" value="3" id="id-comm-3-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-comm-NUM" value="4" id="id-comm-4-NUM" /></td>
+                <td class="rating"><input type="radio" name="inst-comm-NUM" value="5" id="id-comm-5-NUM" /></td>
             </tr>
             <tr class="rating">
             	<td class="ratingdesc">Comments:</td>
         		<td colspan="5">
-        			<textarea name="instructor-comment-NUM" 
+        			<textarea name="inst-comment-NUM" 
         			          id="id-instructor-comment-NUM"
         			          cols="40" rows="5"></textarea>
         		</td>
