@@ -37,7 +37,7 @@ int file_write_base64(FILE * fp, char * data, size_t data_len)
 	bio = BIO_push(b64, bio);
 	
 	BIO_write(bio, data, data_len);
-	//BIO_flush(bio);
+	BIO_flush(bio);
 	
 	BIO_free_all(bio);
 
@@ -120,14 +120,18 @@ int process_request(struct net_serv_t * serv)
 		// Grab a pointer to the content
 		content = strstr(serv->buf, "\r\n\r\n") + 4;
 		content_len = serv->buf_off - (content - serv->buf);
+
+		//fprintf(stderr, "%s expected length: %lu\n",
+		//		__func__, content_len);
 		
 		//process_post(content, content_len);
 		
 		// Dump content base64 encoded to log file
 		if (serv->log_fp) {
-			fwrite("----\r\n", 1, 6, serv->log_fp);
 			file_write_base64(serv->log_fp, content, content_len);
+			fflush(serv->log_fp);
 			fwrite("\r\n", 1, 2, serv->log_fp);
+			fwrite("----\r\n", 1, 6, serv->log_fp);
 			fflush(serv->log_fp);
 		}
 		
