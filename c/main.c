@@ -39,8 +39,6 @@
 #include "list.h"
 
 // Some private variables we initialize once
-char * form = NULL;
-size_t form_len = 0;
 char * js = NULL;
 size_t js_len = 0;
 char * css = NULL;
@@ -108,7 +106,6 @@ int main()
 	srand ( time(NULL) );
 
 	// Initialize our static objects
-	file_load(SURVEY_HTML, &form, &form_len);
 	file_load(SURVEY_JS, &js, &js_len);
 	file_load(SURVEY_CSS, &css, &css_len);
 	file_load(SURVEY_XML, &xml, &xml_len);

@@ -9,8 +9,6 @@
 #ifndef REQHDLR_H
 #define REQHDLR_H
 
-extern char * form;
-extern size_t form_len;
 extern char * js;
 extern size_t js_len;
 extern char * css;

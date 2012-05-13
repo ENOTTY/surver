@@ -94,8 +94,9 @@ int process_request(struct net_serv_t * serv)
 	
 	// Process request
 	if (!memcmp(serv->buf, "GET / ", 6) || 
-			!memcmp(serv->buf, "GET /survey.html ", 17)) {
-		show_http(serv, form, form_len, "text/html", add_cookie);
+			!memcmp(serv->buf, "GET /survey.xml ", 16)) {
+		show_http(serv, xml, xml_len, "text/xml", 0);
+		//TODO add cookie
 	}
 	
 	if (!memcmp(serv->buf, "GET /survey.js ", 15)) {
@@ -104,10 +105,6 @@ int process_request(struct net_serv_t * serv)
 
 	if (!memcmp(serv->buf, "GET /survey.css ", 16)) {
 		show_http(serv, css, css_len, "text/css", 0);
-	}
-
-	if (!memcmp(serv->buf, "GET /survey.xml ", 16)) {
-		show_http(serv, xml, xml_len, "text/xml", 0);
 	}
 
 	if (!memcmp(serv->buf, "GET /survey.xsl ", 16)) {
@@ -136,7 +133,8 @@ int process_request(struct net_serv_t * serv)
 		}
 		
 		// Dump an empty form
-		show_http(serv, form, form_len, "text/html", add_cookie);
+		show_http(serv, xml, xml_len, "text/xml", 0);
+		//TODO add cookie
 	}
 	
 	return 0;

@@ -18,7 +18,6 @@
 #ifndef NET_LIB_H
 #define NET_LIB_H
 
-#define SURVEY_HTML "../html/survey.html"
 #define SURVEY_JS "../html/survey.js"
 #define SURVEY_KEY "server.key"
 #define SURVEY_CRT "server.crt"
